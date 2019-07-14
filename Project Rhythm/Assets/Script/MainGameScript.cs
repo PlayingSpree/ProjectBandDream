@@ -89,6 +89,10 @@ public class MainGameScript : MonoBehaviour
         }
         #endregion
 
+        #region HitDetect
+        //Detect hit
+        #endregion
+
         #region NoteUpdate
 
         foreach (Note item in noteObject)

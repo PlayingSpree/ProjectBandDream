@@ -30,10 +30,12 @@ public class GameSound : MonoBehaviour
 
     public void PlayOneShot(SoundClip soundClip)
     {
-        audioSources[channel++].PlayOneShot(audioClips[(int)soundClip]);
-        if(channel >= sourceCount)
-        {
-            channel = 0;
-        }
+        return; // No sound until delay is fixed
+
+        //audioSources[channel++].PlayOneShot(audioClips[(int)soundClip]);
+        //if(channel >= sourceCount)
+        //{
+        //    channel = 0;
+        //}
     }
 }
