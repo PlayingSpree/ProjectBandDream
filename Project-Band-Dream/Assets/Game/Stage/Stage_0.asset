@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Stage_0
+  m_EditorClassIdentifier: Assembly-CSharp::StageSO
+  noteTap:
+  - {fileID: 2141407141328313315, guid: c9a598668340c8c449f2287cdeb822d8, type: 3}
+  - {fileID: 410822700267508124, guid: c9a598668340c8c449f2287cdeb822d8, type: 3}
+  - {fileID: 4321052764364080577, guid: c9a598668340c8c449f2287cdeb822d8, type: 3}
+  - {fileID: -370007748373386435, guid: c9a598668340c8c449f2287cdeb822d8, type: 3}
+  - {fileID: 6482721344234614258, guid: c9a598668340c8c449f2287cdeb822d8, type: 3}
+  - {fileID: -768890326756262668, guid: c9a598668340c8c449f2287cdeb822d8, type: 3}
+  - {fileID: 8474177589433374074, guid: c9a598668340c8c449f2287cdeb822d8, type: 3}
+  noteTapOff:
+  - {fileID: 5046373935864209178, guid: c9a598668340c8c449f2287cdeb822d8, type: 3}
+  - {fileID: -1502918025759042181, guid: c9a598668340c8c449f2287cdeb822d8, type: 3}
+  - {fileID: 8181122273959262582, guid: c9a598668340c8c449f2287cdeb822d8, type: 3}
+  - {fileID: -6895674965557054096, guid: c9a598668340c8c449f2287cdeb822d8, type: 3}
+  - {fileID: -5246475919128752707, guid: c9a598668340c8c449f2287cdeb822d8, type: 3}
+  - {fileID: 3966400951398020444, guid: c9a598668340c8c449f2287cdeb822d8, type: 3}
+  - {fileID: -8202874556008636547, guid: c9a598668340c8c449f2287cdeb822d8, type: 3}
+  noteFlick:
+  - {fileID: -800256152416802865, guid: c9a598668340c8c449f2287cdeb822d8, type: 3}
+  - {fileID: 63109503951850235, guid: c9a598668340c8c449f2287cdeb822d8, type: 3}
+  - {fileID: 6803009995543403344, guid: c9a598668340c8c449f2287cdeb822d8, type: 3}
+  - {fileID: 3094998109701878255, guid: c9a598668340c8c449f2287cdeb822d8, type: 3}
+  - {fileID: 7439005274784345467, guid: c9a598668340c8c449f2287cdeb822d8, type: 3}
+  - {fileID: 5717290397812449286, guid: c9a598668340c8c449f2287cdeb822d8, type: 3}
+  - {fileID: 1407779943366518307, guid: c9a598668340c8c449f2287cdeb822d8, type: 3}
+  noteFlickIcon: {fileID: -3672500403787207596, guid: c9a598668340c8c449f2287cdeb822d8,
+    type: 3}
+  noteHold:
+  - {fileID: 4963898545200211901, guid: c9a598668340c8c449f2287cdeb822d8, type: 3}
+  - {fileID: -3048440520544481208, guid: c9a598668340c8c449f2287cdeb822d8, type: 3}
+  - {fileID: 4369101203768789137, guid: c9a598668340c8c449f2287cdeb822d8, type: 3}
+  - {fileID: -1340299329977130359, guid: c9a598668340c8c449f2287cdeb822d8, type: 3}
+  - {fileID: -9018460182342834982, guid: c9a598668340c8c449f2287cdeb822d8, type: 3}
+  - {fileID: 5030111440700897277, guid: c9a598668340c8c449f2287cdeb822d8, type: 3}
+  - {fileID: 1428841521389931914, guid: c9a598668340c8c449f2287cdeb822d8, type: 3}
+  noteTick: {fileID: 1765415682399059438, guid: c9a598668340c8c449f2287cdeb822d8,
+    type: 3}
+  bg: {fileID: 21300000, guid: 75d31eca5e17a2c47ba0a9824b63365b, type: 3}
+  lane: {fileID: 6113365820147231146, guid: a287a620fb2d99143a2d5f5a60b79848, type: 3}
+  laneHit: {fileID: 1938990106709215628, guid: a287a620fb2d99143a2d5f5a60b79848, type: 3}
