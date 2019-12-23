@@ -14,30 +14,30 @@ public class NoteControl : MonoBehaviour
     // Active Note List
     List<ActiveNote> activeNotes = new List<ActiveNote>();
     // TEMP!!! Song time
-    float songTime = 0f;
+    int songTime = 0;
     private void Start()
     {
         // Late Ref
         stageSO = FindObjectOfType<StageData>().stageSO;
         // Init
         NotePoolInit();
-        CreateActiveNote(new NoteInfo(NoteInfo.NoteType.Tap, 1, 1f, 1, 0));
-        CreateActiveNote(new NoteInfo(NoteInfo.NoteType.Hold, 1, 1.2f, 2, 0));
-        CreateActiveNote(new NoteInfo(NoteInfo.NoteType.TapOff, 1, 1.4f, 3, 0));
-        CreateActiveNote(new NoteInfo(NoteInfo.NoteType.Tick, 1, 1.6f, 4, 0));
-        CreateActiveNote(new NoteInfo(NoteInfo.NoteType.Flick, 1, 1.8f, 5, 0));
-        CreateActiveNote(new NoteInfo(NoteInfo.NoteType.Tap, 1, 2f, 6, 0));
-        CreateActiveNote(new NoteInfo(NoteInfo.NoteType.Tap, 1, 2.2f, 7, 0));
+        CreateActiveNote(new MapMetaData.NoteInfo(MapMetaData.NoteInfo.NoteType.Tap, 1, 1000, 1, 0));
+        CreateActiveNote(new MapMetaData.NoteInfo(MapMetaData.NoteInfo.NoteType.Hold, 1, 1200, 2, 0));
+        CreateActiveNote(new MapMetaData.NoteInfo(MapMetaData.NoteInfo.NoteType.TapOff, 1, 1400, 3, 0));
+        CreateActiveNote(new MapMetaData.NoteInfo(MapMetaData.NoteInfo.NoteType.Tick, 1, 1600, 4, 0));
+        CreateActiveNote(new MapMetaData.NoteInfo(MapMetaData.NoteInfo.NoteType.Flick, 1, 1800, 5, 0));
+        CreateActiveNote(new MapMetaData.NoteInfo(MapMetaData.NoteInfo.NoteType.Tap, 1, 2000, 6, 0));
+        CreateActiveNote(new MapMetaData.NoteInfo(MapMetaData.NoteInfo.NoteType.Tap, 1, 2200, 7, 0));
     }
 
 
     private void Update()
     {
-        songTime += Time.deltaTime;
+        songTime += (int)(Time.deltaTime*1000f);
         // Update Note
         for (int i = 0; i < activeNotes.Count; i++)
         {
-            float timeLeft = activeNotes[i].noteInfo.time - songTime;
+            int timeLeft = activeNotes[i].noteInfo.time - songTime;
             if (timeLeft < 0f)
             {
                 activeNotes[i].noteObj.gameObj.transform.position = Vector3.up * 100;
@@ -52,7 +52,7 @@ public class NoteControl : MonoBehaviour
     }
 
     // Use note from pool to create ActiveNote
-    void CreateActiveNote(NoteInfo noteInfo)
+    void CreateActiveNote(MapMetaData.NoteInfo noteInfo)
     {
         NoteObject noteObject = null;
         // Find inactive noteObj
@@ -74,19 +74,19 @@ public class NoteControl : MonoBehaviour
         // Set Sprite
         switch (noteInfo.noteType)
         {
-            case NoteInfo.NoteType.Tap:
+            case MapMetaData.NoteInfo.NoteType.Tap:
                 noteObject.spriteRenderer.sprite = stageSO.noteTap[noteInfo.lane - 1];
                 break;
-            case NoteInfo.NoteType.TapOff:
+            case MapMetaData.NoteInfo.NoteType.TapOff:
                 noteObject.spriteRenderer.sprite = stageSO.noteTapOff[noteInfo.lane - 1];
                 break;
-            case NoteInfo.NoteType.Hold:
+            case MapMetaData.NoteInfo.NoteType.Hold:
                 noteObject.spriteRenderer.sprite = stageSO.noteHold[noteInfo.lane - 1];
                 break;
-            case NoteInfo.NoteType.Tick:
+            case MapMetaData.NoteInfo.NoteType.Tick:
                 noteObject.spriteRenderer.sprite = stageSO.noteTick;
                 break;
-            case NoteInfo.NoteType.Flick:
+            case MapMetaData.NoteInfo.NoteType.Flick:
                 noteObject.spriteRenderer.sprite = stageSO.noteFlick[noteInfo.lane - 1];
                 break;
             default:
@@ -108,10 +108,10 @@ public class NoteControl : MonoBehaviour
 
     // Note time to position. Stolen shamelessly from Bestdori
     // Return (x,y,scale)
-    Vector3 TimeToPos(float time, int lane)
+    Vector3 TimeToPos(int time, int lane)
     {
         float a = -0.94f * stateSetting.laneHeight;
-        a *= 1 - Mathf.Pow(1.1f, -time / stateSetting.noteScreenTime * 50);
+        a *= 1 - Mathf.Pow(1.1f, -(time/1000f) / stateSetting.noteScreenTime * 50);
         float s = (a + stateSetting.laneHeight) / stateSetting.laneHeight;
         return new Vector3((lane - 4) * stateSetting.laneWidth * s, -a - 3, s); // Stage offset (y -= 3)
     }
@@ -135,9 +135,9 @@ public class NoteControl : MonoBehaviour
     class ActiveNote
     {
         public NoteObject noteObj;
-        public NoteInfo noteInfo;
+        public MapMetaData.NoteInfo noteInfo;
 
-        public ActiveNote(NoteObject noteObj, NoteInfo noteInfo)
+        public ActiveNote(NoteObject noteObj, MapMetaData.NoteInfo noteInfo)
         {
             this.noteObj = noteObj;
             this.noteInfo = noteInfo;
@@ -163,29 +163,5 @@ public class StateSetting
     public static float setBandoriNoteScreenTime(float simNoteSpeed)
     {
         return 5.5f - (simNoteSpeed - 1) / 2;
-    }
-}
-
-// Temp!!! Note information
-struct NoteInfo
-{
-    public enum NoteType
-    {
-        Tap, TapOff, Hold, Tick, Flick
-    }
-    public NoteType noteType;
-
-    public int id;
-    public float time;
-    public int lane;
-    public int next;
-
-    public NoteInfo(NoteType noteType, int id, float time, int lane, int next)
-    {
-        this.noteType = noteType;
-        this.id = id;
-        this.time = time;
-        this.lane = lane;
-        this.next = next;
     }
 }
