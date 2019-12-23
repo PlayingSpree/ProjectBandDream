@@ -20,14 +20,14 @@ public class NoteControl : MonoBehaviour
         // Late Ref
         stageSO = FindObjectOfType<StageData>().stageSO;
         // Init
-        notePoolInit();
-        createActiveNote(new NoteInfo(NoteInfo.NoteType.Tap, 1, 1f, 1, 0));
-        createActiveNote(new NoteInfo(NoteInfo.NoteType.Hold, 1, 1.2f, 2, 0));
-        createActiveNote(new NoteInfo(NoteInfo.NoteType.TapOff, 1, 1.4f, 3, 0));
-        createActiveNote(new NoteInfo(NoteInfo.NoteType.Tick, 1, 1.6f, 4, 0));
-        createActiveNote(new NoteInfo(NoteInfo.NoteType.Flick, 1, 1.8f, 5, 0));
-        createActiveNote(new NoteInfo(NoteInfo.NoteType.Tap, 1, 2f, 6, 0));
-        createActiveNote(new NoteInfo(NoteInfo.NoteType.Tap, 1, 2.2f, 7, 0));
+        NotePoolInit();
+        CreateActiveNote(new NoteInfo(NoteInfo.NoteType.Tap, 1, 1f, 1, 0));
+        CreateActiveNote(new NoteInfo(NoteInfo.NoteType.Hold, 1, 1.2f, 2, 0));
+        CreateActiveNote(new NoteInfo(NoteInfo.NoteType.TapOff, 1, 1.4f, 3, 0));
+        CreateActiveNote(new NoteInfo(NoteInfo.NoteType.Tick, 1, 1.6f, 4, 0));
+        CreateActiveNote(new NoteInfo(NoteInfo.NoteType.Flick, 1, 1.8f, 5, 0));
+        CreateActiveNote(new NoteInfo(NoteInfo.NoteType.Tap, 1, 2f, 6, 0));
+        CreateActiveNote(new NoteInfo(NoteInfo.NoteType.Tap, 1, 2.2f, 7, 0));
     }
 
 
@@ -45,14 +45,14 @@ public class NoteControl : MonoBehaviour
                 i--;
                 continue;
             }
-            Vector3 v = timeToPos(timeLeft, activeNotes[i].noteInfo.lane);
+            Vector3 v = TimeToPos(timeLeft, activeNotes[i].noteInfo.lane);
             activeNotes[i].noteObj.gameObj.transform.position = new Vector3(v.x, v.y, 0);
             activeNotes[i].noteObj.gameObj.transform.localScale = new Vector3(v.z, v.z, 1);
         }
     }
 
     // Use note from pool to create ActiveNote
-    void createActiveNote(NoteInfo noteInfo)
+    void CreateActiveNote(NoteInfo noteInfo)
     {
         NoteObject noteObject = null;
         // Find inactive noteObj
@@ -98,7 +98,7 @@ public class NoteControl : MonoBehaviour
     }
 
     // Create note in pool
-    void notePoolInit()
+    void NotePoolInit()
     {
         for (int i = 0; i < 20; i++)
         {
@@ -108,7 +108,7 @@ public class NoteControl : MonoBehaviour
 
     // Note time to position. Stolen shamelessly from Bestdori
     // Return (x,y,scale)
-    Vector3 timeToPos(float time, int lane)
+    Vector3 TimeToPos(float time, int lane)
     {
         float a = -0.94f * stateSetting.laneHeight;
         a *= 1 - Mathf.Pow(1.1f, -time / stateSetting.noteScreenTime * 50);

@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: SFX_0
   m_EditorClassIdentifier: Assembly-CSharp::SFX_SO
-  tap: {fileID: 8300000, guid: f7c3f32b721a50c449e790ab06f27399, type: 3}
-  flick: {fileID: 8300000, guid: 7bd3ffcb5c8a3de48874190145863999, type: 3}
+  tap: {fileID: 0}
+  flick: {fileID: 0}
