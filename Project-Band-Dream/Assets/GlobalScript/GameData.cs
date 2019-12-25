@@ -1,4 +1,6 @@
-﻿namespace GameData
+﻿using System.Collections.Generic;
+
+namespace GameData
 {
     [System.Serializable]
     public static class GameSetting
@@ -8,13 +10,14 @@
     }
 
     [System.Serializable]
-    public class MapMetaData
+    public class MapData
     {
         public string name;
         public string songPath;
         public int previewPoint = 0;
+        public List<NoteInfo> notes = new List<NoteInfo>();
 
-        public MapMetaData(string name, string songPath)
+        public MapData(string name, string songPath)
         {
             this.name = name;
             this.songPath = songPath;
@@ -28,15 +31,13 @@
             }
             public NoteType noteType;
 
-            public int id;
             public int time;
             public int lane;
             public int next;
 
-            public NoteInfo(NoteType noteType, int id, int time, int lane, int next)
+            public NoteInfo(NoteType noteType, int time, int lane, int next)
             {
                 this.noteType = noteType;
-                this.id = id;
                 this.time = time;
                 this.lane = lane;
                 this.next = next;

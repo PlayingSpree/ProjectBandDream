@@ -8,31 +8,58 @@ public class NoteControl : MonoBehaviour
     // Prefab
     public GameObject notePrefab;
     // Ref
-    StateSetting stateSetting = new StateSetting(6f, 1.54f, StateSetting.setBandoriNoteScreenTime(10.5f));
+    StateSetting stateSetting = new StateSetting(6f, 1.54f, StateSetting.setBandoriNoteScreenTime(GameSetting.noteSpeed));
     StageSO stageSO;
-    // Note Pool
+
+    // Data
+    MapData map = SongCreator.CreateSong();
     List<NoteObject> notePool = new List<NoteObject>();
-    // Active Note List
     List<ActiveNote> activeNotes = new List<ActiveNote>();
-    // Song time
+
     public int songTime;
+    float scaledNoteScreenTime;
+
+    public int noteCount;
+    public List<int> spawnedNote = new List<int>();
     private void Start()
     {
         // Ref
         stageSO = FindObjectOfType<StageData>().stageSO;
         // Init
         NotePoolInit();
-        CreateActiveNote(new MapMetaData.NoteInfo(MapMetaData.NoteInfo.NoteType.Tap, 1, 1000, 1, 0));
-        CreateActiveNote(new MapMetaData.NoteInfo(MapMetaData.NoteInfo.NoteType.Hold, 1, 1200, 2, 0));
-        CreateActiveNote(new MapMetaData.NoteInfo(MapMetaData.NoteInfo.NoteType.TapOff, 1, 1400, 3, 0));
-        CreateActiveNote(new MapMetaData.NoteInfo(MapMetaData.NoteInfo.NoteType.Tick, 1, 1600, 4, 0));
-        CreateActiveNote(new MapMetaData.NoteInfo(MapMetaData.NoteInfo.NoteType.Flick, 1, 1800, 5, 0));
-        CreateActiveNote(new MapMetaData.NoteInfo(MapMetaData.NoteInfo.NoteType.Tap, 1, 2000, 6, 0));
-        CreateActiveNote(new MapMetaData.NoteInfo(MapMetaData.NoteInfo.NoteType.Tap, 1, 2200, 7, 0));
     }
 
     private void Update()
     {
+        
+        // Create Note
+        if (noteCount < map.notes.Count)
+        {
+            while (map.notes[noteCount].time < songTime + (int)(scaledNoteScreenTime * 1000f))
+            {
+                // Spawn? (By next)
+                if (spawnedNote.Contains(noteCount))
+                {
+                    spawnedNote.Remove(noteCount);
+                }
+                else
+                {
+                    CreateActiveNote(map.notes[noteCount]);
+                }
+                // Next Note
+                int n = map.notes[noteCount].next;
+                if (n > 0)
+                {
+                    CreateActiveNote(map.notes[n]);
+                    spawnedNote.Add(n);
+                }
+                noteCount++;
+                if (noteCount == map.notes.Count)
+                {
+                    break;
+                }
+            }
+        }
         // Update Note
         for (int i = 0; i < activeNotes.Count; i++)
         {
@@ -40,6 +67,7 @@ public class NoteControl : MonoBehaviour
             if (timeLeft < 0f)
             {
                 activeNotes[i].noteObj.gameObj.transform.position = Vector3.up * 100;
+                activeNotes[i].noteObj.active = false;
                 activeNotes.RemoveAt(i);
                 i--;
                 continue;
@@ -51,7 +79,7 @@ public class NoteControl : MonoBehaviour
     }
 
     // Use note from pool to create ActiveNote
-    void CreateActiveNote(MapMetaData.NoteInfo noteInfo)
+    void CreateActiveNote(MapData.NoteInfo noteInfo)
     {
         NoteObject noteObject = null;
         // Find inactive noteObj
@@ -68,24 +96,25 @@ public class NoteControl : MonoBehaviour
         if (noteObject == null)
         {
             noteObject = new NoteObject(Instantiate(notePrefab, Vector3.up * 100, Quaternion.identity), false);
+            noteObject.active = true;
             notePool.Add(noteObject);
         }
         // Set Sprite
         switch (noteInfo.noteType)
         {
-            case MapMetaData.NoteInfo.NoteType.Tap:
+            case MapData.NoteInfo.NoteType.Tap:
                 noteObject.spriteRenderer.sprite = stageSO.noteTap[noteInfo.lane - 1];
                 break;
-            case MapMetaData.NoteInfo.NoteType.TapOff:
+            case MapData.NoteInfo.NoteType.TapOff:
                 noteObject.spriteRenderer.sprite = stageSO.noteTapOff[noteInfo.lane - 1];
                 break;
-            case MapMetaData.NoteInfo.NoteType.Hold:
+            case MapData.NoteInfo.NoteType.Hold:
                 noteObject.spriteRenderer.sprite = stageSO.noteHold[noteInfo.lane - 1];
                 break;
-            case MapMetaData.NoteInfo.NoteType.Tick:
+            case MapData.NoteInfo.NoteType.Tick:
                 noteObject.spriteRenderer.sprite = stageSO.noteTick;
                 break;
-            case MapMetaData.NoteInfo.NoteType.Flick:
+            case MapData.NoteInfo.NoteType.Flick:
                 noteObject.spriteRenderer.sprite = stageSO.noteFlick[noteInfo.lane - 1];
                 break;
             default:
@@ -110,9 +139,14 @@ public class NoteControl : MonoBehaviour
     Vector3 TimeToPos(int time, int lane)
     {
         float a = -0.94f * stateSetting.laneHeight;
-        a *= 1 - Mathf.Pow(1.1f, -(time/1000f) / stateSetting.noteScreenTime * 50);
+        a *= 1 - Mathf.Pow(1.1f, -(time / 1000f) / scaledNoteScreenTime * 50f);
         float s = (a + stateSetting.laneHeight) / stateSetting.laneHeight;
         return new Vector3((lane - 4) * stateSetting.laneWidth * s, -a - 3, s); // Stage offset (y -= 3)
+    }
+
+    public void SetSpeed(float songSpeed)
+    {
+        scaledNoteScreenTime = Mathf.Max(0.05f, stateSetting.noteScreenTime * songSpeed);
     }
 
     // Note GameObject
@@ -134,9 +168,9 @@ public class NoteControl : MonoBehaviour
     class ActiveNote
     {
         public NoteObject noteObj;
-        public MapMetaData.NoteInfo noteInfo;
+        public MapData.NoteInfo noteInfo;
 
-        public ActiveNote(NoteObject noteObj, MapMetaData.NoteInfo noteInfo)
+        public ActiveNote(NoteObject noteObj, MapData.NoteInfo noteInfo)
         {
             this.noteObj = noteObj;
             this.noteInfo = noteInfo;

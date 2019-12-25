@@ -15,8 +15,10 @@ public class GameControl : MonoBehaviour
         // Ref
         musicPlayer = FindObjectOfType<MusicPlayer>();
         noteControl = FindObjectOfType<NoteControl>();
-        musicPlayer.Play(SongSelect.audioClip, 0, 3d);
+        // Init
+        musicPlayer.Play(SongSelect.audioClip, 0, 3d, true, 1.18f);
         songPlayTime = AudioSettings.dspTime + 3d;
+        noteControl.SetSpeed(musicPlayer.GetSongSpeed());
     }
 
     void Update()
@@ -35,7 +37,7 @@ public class GameControl : MonoBehaviour
             int songTime = musicPlayer.GetSongTime();
             if (songTime == lastSongTime)
             {
-                noteControl.songTime += (int)((AudioSettings.dspTime - lastDspTime) * 1000d);
+                noteControl.songTime += (int)((AudioSettings.dspTime - lastDspTime) * 1000d * musicPlayer.GetSongSpeed());
             }
             else
             {

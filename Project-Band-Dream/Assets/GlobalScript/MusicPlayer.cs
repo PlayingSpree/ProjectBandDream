@@ -55,7 +55,17 @@ public class MusicPlayer : MonoBehaviour
         audioSources[activeAudioSource].timeSamples = ms * (audioSources[activeAudioSource].clip.frequency / 1000);
     }
 
-    public void Play(AudioClip clip, int ms = 0, double delay = 1d)
+    public float GetSongSpeed()
+    {
+        return audioSources[activeAudioSource].pitch;
+    }
+
+    public void SetSongSpeed(float speed)
+    {
+        audioSources[activeAudioSource].pitch = speed;
+    }
+
+    public void Play(AudioClip clip, int time = 0, double delay = 1d, bool nofade = false, float speed = 1f)
     {
         Stop();
         activeAudioSource = 1 - activeAudioSource;
@@ -65,8 +75,9 @@ public class MusicPlayer : MonoBehaviour
         }
         audioSources[activeAudioSource].clip = clip;
         audioSources[activeAudioSource].PlayScheduled(AudioSettings.dspTime + delay);
-        SetSongTime(ms);
-        fadein = 0.5f + (float)delay;
+        SetSongTime(time);
+        SetSongSpeed(speed);
+        fadein = nofade ? 0f : (0.5f + (float)delay);
     }
 
     public void Stop()

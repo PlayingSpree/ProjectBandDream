@@ -33,7 +33,7 @@ public static class MapsLibrary
             foreach (string currentFile in files)
             {
                 string path = Path.GetDirectoryName(currentFile);
-                MapMetaData m = new MapMetaData("-", "-");
+                MapData m = new MapData("-", "-");
                 if (ExFileManager.LoadFilePath(currentFile, m))
                 {
                     // Add map
@@ -56,15 +56,15 @@ public static class MapsLibrary
     public class MapEntryData
     {
         public string mapPath;
-        public string mapMetaFile;
+        public string mapFile;
         public string name;
         public string songPath;
         public int previewPoint;
 
-        public MapEntryData(string mapPath, string mapMetaFile, string name, string songPath, int previewPoint)
+        public MapEntryData(string mapPath, string mapFile, string name, string songPath, int previewPoint)
         {
             this.mapPath = mapPath;
-            this.mapMetaFile = mapMetaFile;
+            this.mapFile = mapFile;
             this.name = name;
             this.songPath = songPath;
             this.previewPoint = previewPoint;
