@@ -3,7 +3,7 @@ public class MapMetaData
 {
     public string name;
     public string songPath;
-    public uint previewPoint = 0u;
+    public int previewPoint = 0;
 
     public MapMetaData(string name, string songPath)
     {

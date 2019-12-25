@@ -34,7 +34,7 @@ public static class MapsLibrary
                 if (ExFileManager.LoadFilePath(currentFile, m))
                 {
                     // Add map
-                    data.songsList.Add(new MapEntryData(path, currentFile, m.name, m.songPath));
+                    data.songsList.Add(new MapEntryData(path, currentFile, m.name, m.songPath , m.previewPoint));
                 }
             }
         }
@@ -56,14 +56,15 @@ public static class MapsLibrary
         public string mapMetaFile;
         public string name;
         public string songPath;
-        public uint previewPoint;
+        public int previewPoint;
 
-        public MapEntryData(string mapPath, string mapMetaFile, string name, string songPath)
+        public MapEntryData(string mapPath, string mapMetaFile, string name, string songPath, int previewPoint)
         {
             this.mapPath = mapPath;
             this.mapMetaFile = mapMetaFile;
             this.name = name;
             this.songPath = songPath;
+            this.previewPoint = previewPoint;
         }
     }
 }

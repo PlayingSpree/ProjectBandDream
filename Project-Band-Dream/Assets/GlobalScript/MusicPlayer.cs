@@ -4,22 +4,70 @@ using UnityEngine;
 
 public class MusicPlayer : MonoBehaviour
 {
-    AudioSource audioSource;
+    AudioSource[] audioSources = new AudioSource[2];
+    int activeAudioSource = 0;
+    float fadeout = 0f;
+    float fadein = 0f;
+
+    // Temp
+    float musicVolume = 1f;
     void Awake()
     {
         DontDestroyOnLoad(gameObject);
-        audioSource = GetComponent<AudioSource>();
+        for (int i = 0; i < 2; i++)
+        {
+            audioSources[i] = gameObject.AddComponent<AudioSource>();
+            audioSources[i].bypassEffects = true;
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        // Fade Effect
+        if (audioSources[1 - activeAudioSource].isPlaying)
+        {
+            if (fadeout > 0f)
+            {
+                audioSources[1 - activeAudioSource].volume = fadeout * musicVolume;
+                fadeout -= Time.deltaTime;
+            }
+            else
+            {
+                audioSources[1 - activeAudioSource].Stop();
+            }
+        }
+        if (fadein > 0f)
+        {
+            audioSources[activeAudioSource].volume = (1f - fadein) * musicVolume;
+            fadein -= Time.deltaTime;
+        }
+        else
+        {
+            audioSources[activeAudioSource].volume = musicVolume;
+        }
     }
 
-    public void Play(AudioClip clip)
+    public int GetSongTime()
     {
-        audioSource.clip = clip;
-        audioSource.Play();
+        return audioSources[activeAudioSource].timeSamples * 1000 / audioSources[activeAudioSource].clip.frequency;
+    }
+
+    public void SetSongTime(int ms)
+    {
+        audioSources[activeAudioSource].timeSamples = ms * (audioSources[activeAudioSource].clip.frequency / 1000);
+    }
+
+    public void Play(AudioClip clip, int ms = 0, float delay = 1f)
+    {
+        activeAudioSource = 1 - activeAudioSource;
+        if (audioSources[activeAudioSource].isPlaying)
+        {
+            audioSources[activeAudioSource].Stop();
+        }
+        audioSources[activeAudioSource].clip = clip;
+        audioSources[activeAudioSource].PlayScheduled(AudioSettings.dspTime + delay);
+        SetSongTime(ms);
+        fadeout = 1f;
+        fadein = 0.5f + delay;
     }
 }
