@@ -13,11 +13,11 @@ public class NoteControl : MonoBehaviour
     List<NoteObject> notePool = new List<NoteObject>();
     // Active Note List
     List<ActiveNote> activeNotes = new List<ActiveNote>();
-    // TEMP!!! Song time
-    int songTime = 0;
+    // Song time
+    public int songTime;
     private void Start()
     {
-        // Late Ref
+        // Ref
         stageSO = FindObjectOfType<StageData>().stageSO;
         // Init
         NotePoolInit();
@@ -30,10 +30,8 @@ public class NoteControl : MonoBehaviour
         CreateActiveNote(new MapMetaData.NoteInfo(MapMetaData.NoteInfo.NoteType.Tap, 1, 2200, 7, 0));
     }
 
-
     private void Update()
     {
-        songTime += (int)(Time.deltaTime*1000f);
         // Update Note
         for (int i = 0; i < activeNotes.Count; i++)
         {
@@ -116,7 +114,7 @@ public class NoteControl : MonoBehaviour
         return new Vector3((lane - 4) * stateSetting.laneWidth * s, -a - 3, s); // Stage offset (y -= 3)
     }
 
-    // Active Note
+    // Note GameObject
     class NoteObject
     {
         public GameObject gameObj;
@@ -131,7 +129,7 @@ public class NoteControl : MonoBehaviour
         }
     }
 
-    // Active Note
+    // Active Note Data
     class ActiveNote
     {
         public NoteObject noteObj;

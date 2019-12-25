@@ -527,6 +527,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   notePrefab: {fileID: 8921020799944640424, guid: c91cf28a8fd2e84468c27bc827032669,
     type: 3}
+  songTime: 0
 --- !u!4 &758022698
 Transform:
   m_ObjectHideFlags: 0
@@ -550,7 +551,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 758022696}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3a87814c46983c48bbb7cf1775becc4, type: 3}
+  m_Script: {fileID: 11500000, guid: 5bafa2d4fb9996a48af5066d259f3541, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &768788031

@@ -6,7 +6,8 @@ using UnityEngine;
 public class SongSelect : MonoBehaviour
 {
     MusicPlayer musicPlayer;
-    int selectedSong;
+    public static int selectedSong;
+    public static AudioClip audioClip;
 
     void Start()
     {
@@ -28,11 +29,12 @@ public class SongSelect : MonoBehaviour
 
     void LoadFinish(AudioClip clip)
     {
+        audioClip = clip;
         musicPlayer.Play(clip, MapsLibrary.data.songsList[selectedSong].previewPoint);
     }
 
     public void Play()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Game");
+        FindObjectOfType<SceneController>().ToGame();
     }
 }

@@ -49,7 +49,7 @@ public class MusicPlayer : MonoBehaviour
 
     public int GetSongTime()
     {
-        return audioSources[activeAudioSource].timeSamples * 1000 / audioSources[activeAudioSource].clip.frequency;
+        return audioSources[activeAudioSource].timeSamples / (audioSources[activeAudioSource].clip.frequency / 1000);
     }
 
     public void SetSongTime(int ms)
@@ -57,8 +57,9 @@ public class MusicPlayer : MonoBehaviour
         audioSources[activeAudioSource].timeSamples = ms * (audioSources[activeAudioSource].clip.frequency / 1000);
     }
 
-    public void Play(AudioClip clip, int ms = 0, float delay = 1f)
+    public void Play(AudioClip clip, int ms = 0, double delay = 1d)
     {
+        Stop();
         activeAudioSource = 1 - activeAudioSource;
         if (audioSources[activeAudioSource].isPlaying)
         {
@@ -67,7 +68,17 @@ public class MusicPlayer : MonoBehaviour
         audioSources[activeAudioSource].clip = clip;
         audioSources[activeAudioSource].PlayScheduled(AudioSettings.dspTime + delay);
         SetSongTime(ms);
-        fadeout = 1f;
-        fadein = 0.5f + delay;
+        fadein = 0.5f + (float)delay;
+    }
+
+    public void Stop()
+    {
+        if (audioSources[activeAudioSource].isPlaying)
+        {
+            if (fadeout <= 0f)
+            {
+                fadeout = 1f;
+            }
+        }
     }
 }
