@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GameData;
 
 public class NoteControl : MonoBehaviour
 {
@@ -140,26 +141,5 @@ public class NoteControl : MonoBehaviour
             this.noteObj = noteObj;
             this.noteInfo = noteInfo;
         }
-    }
-}
-
-// Temp class for Game Setting
-public class StateSetting
-{
-    public float laneHeight;
-    public float laneWidth;
-    public float noteScreenTime;
-
-    public StateSetting(float laneHeight, float laneWidth, float noteScreenTime)
-    {
-        this.laneHeight = laneHeight;
-        this.laneWidth = laneWidth;
-        this.noteScreenTime = noteScreenTime;
-    }
-
-    // Note screen time. Also Stolen shamelessly from Bestdori
-    public static float setBandoriNoteScreenTime(float simNoteSpeed)
-    {
-        return 5.5f - (simNoteSpeed - 1) / 2;
     }
 }

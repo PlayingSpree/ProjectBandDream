@@ -9,8 +9,6 @@ public class MusicPlayer : MonoBehaviour
     float fadeout = 0f;
     float fadein = 0f;
 
-    // Temp
-    float musicVolume = 1f;
     void Awake()
     {
         DontDestroyOnLoad(gameObject);
@@ -28,7 +26,7 @@ public class MusicPlayer : MonoBehaviour
         {
             if (fadeout > 0f)
             {
-                audioSources[1 - activeAudioSource].volume = fadeout * musicVolume;
+                audioSources[1 - activeAudioSource].volume = fadeout * GameData.GameSetting.musicVolume;
                 fadeout -= Time.deltaTime;
             }
             else
@@ -38,12 +36,12 @@ public class MusicPlayer : MonoBehaviour
         }
         if (fadein > 0f)
         {
-            audioSources[activeAudioSource].volume = (1f - fadein) * musicVolume;
+            audioSources[activeAudioSource].volume = (1f - fadein) * GameData.GameSetting.musicVolume;
             fadein -= Time.deltaTime;
         }
         else
         {
-            audioSources[activeAudioSource].volume = musicVolume;
+            audioSources[activeAudioSource].volume = GameData.GameSetting.musicVolume;
         }
     }
 

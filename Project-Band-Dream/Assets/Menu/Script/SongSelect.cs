@@ -12,8 +12,11 @@ public class SongSelect : MonoBehaviour
     void Start()
     {
         musicPlayer = FindObjectOfType<MusicPlayer>();
-        MapsLibrary.Scan();
-        MapsLibrary.Save();
+        if (!MapsLibrary.Load())
+        {
+            MapsLibrary.Scan();
+            MapsLibrary.Save();
+        }
     }
 
     void Update()

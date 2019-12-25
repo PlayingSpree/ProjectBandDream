@@ -1,19 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using GameData;
 
 public static class MapsLibrary
 {
     public static MapsLibraryData data = new MapsLibraryData();
 
-    public static void Load()
+    public static bool Load()
     {
         // LoadFromFile
         if (!ExFileManager.LoadFile(ExFileManager.FileType.MapsLibrary, data))
         {
             data = new MapsLibraryData();
             ExFileManager.SaveFile(ExFileManager.FileType.MapsLibrary, data);
+            return false;
         }
+        return true;
     }
 
     public static void Save()
