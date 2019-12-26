@@ -11,7 +11,7 @@ public class SongCreator
         int x = 0;
         for (int i = 0; i < 1800; i++)
         {
-            m.notes.Add(new MapData.NoteInfo(MapData.NoteInfo.NoteType.Tap, (int)((((i + x) * (60f / 520f)) + 5.242f) * 1000f), (((i + x) % 2) * 6) + 1, -1));
+            m.notes.Add(new MapData.NoteInfo(MapData.NoteInfo.NoteType.Tap, (int)((((i + x) * (60f / 520f)) + 5.242f) * 1000f), (((i + x) % 2) * 6), -1));
             if (i % 3 == 2)
             {
                 x++;

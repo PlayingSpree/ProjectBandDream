@@ -7,6 +7,8 @@ namespace GameData
     {
         public static float musicVolume = 0.3f;
         public static float noteSpeed = 1.0f;
+        public static StateSetting stateSetting = new StateSetting(6f, 1.54f, StateSetting.setBandoriNoteScreenTime(noteSpeed));
+        public static NoteHitTiming noteHitTiming = new NoteHitTiming();
     }
 
     [System.Serializable]
@@ -50,6 +52,7 @@ namespace GameData
         public float laneHeight;
         public float laneWidth;
         public float noteScreenTime;
+        public float laneHitExtraSize = 1.5f;
 
         public StateSetting(float laneHeight, float laneWidth, float noteScreenTime)
         {
@@ -62,6 +65,22 @@ namespace GameData
         public static float setBandoriNoteScreenTime(float simNoteSpeed)
         {
             return 5.5f - (simNoteSpeed - 1) / 2;
+        }
+    }
+
+    public struct NoteHitTiming
+    {
+        public int perfect;
+        public int great;
+        public int good;
+        public int bad;
+
+        public NoteHitTiming(int perfect = 50, int great = 100, int good = 117, int bad = 133)
+        {
+            this.perfect = perfect;
+            this.great = great;
+            this.good = good;
+            this.bad = bad;
         }
     }
 }
